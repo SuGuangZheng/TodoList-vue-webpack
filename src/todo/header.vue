@@ -15,10 +15,11 @@
 <style lang="stylus" scoped>
 .main-header{
     text-align center
-    margin-top 70px
+    margin-top 3rem
     }
     h1{
-        font-size 50px
+        // font-size 50px
+        font-size 2rem
         // color rgba()
         color #fff;
         font-weight 100

@@ -13,7 +13,7 @@ export default{
                     <a
                     style="color:#ccc;font-weight:500" 
                     target="_blank"
-                    href="https://suguangzheng.github.io/QueryWeatherTest/">
+                    href="http://152.136.156.229/weather/">
                         张爽专用查天气</a>
                     </span>
                 <br/>
