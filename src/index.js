@@ -2,7 +2,7 @@ import Vue from "Vue"
 import App from "./app.vue"
 import './assets/styles/global.styl'
 
-document.title = "任务清单"
+document.title = "任务清单-by suxin"
 const root = document.createElement("div");
 document.body.appendChild(root);
 

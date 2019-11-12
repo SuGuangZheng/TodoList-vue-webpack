@@ -4,7 +4,8 @@
     :id="todo.id"
     type="checkbox"  
     class="toggle"
-    v-model="todo.completed">
+    v-model="todo.completed"
+    @change = "completeChanged">
      <label :for="todo.id">{{todo.content}}</label>
      <button @click="deleteTodo" class="destory"></button>
 </div>
@@ -18,9 +19,19 @@ export default{
             type:Object
         }
     },
+    // watch:{
+    //     todo.completed:function(newVal,oldVal){
+    //         alert("changed!");
+    //         console.log(oldVal);
+    //         console.log(newVal);
+    //     }
+    // },
     methods:{
         deleteTodo(e){
           this.$emit('del',this.todo.id);
+        },
+        completeChanged(e){
+            this.$emit('completedChanged',this.todo.id);
         }
     }
 }

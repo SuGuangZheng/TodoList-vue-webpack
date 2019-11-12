@@ -11,7 +11,7 @@ export default{
             <div id="footer">
                 <span>
                     <p>Live each day as if it was your last day</p>
-                    <p>Tips:使用同一浏览器可云端保存清单</p>
+                    <p>Tips:使用同一浏览器可离线保存清单</p>
                     <a
                     style="color:#ccc;font-weight:500" 
                     target="_blank"

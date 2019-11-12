@@ -8,7 +8,8 @@
 			@keyup.enter="addTodo"
 		/>
 
-		<item :todo="todo" v-for="todo in filteredTodos" :key="todo.id" @del="deleteTodo"></item>
+		<item :todo="todo" v-for="todo in filteredTodos" :key="todo.id"
+         @completedChanged="changeStatus" @del="deleteTodo"></item>
 
 		<Tabs
 			:filter="filter"
@@ -22,7 +23,7 @@
 <script>
 	import Item from "./item.vue";
 	import Tabs from "./tabs.vue";
-	let id = 0;
+	let id = 1;
 	export default {
 		data() {
 			return {
@@ -43,8 +44,6 @@
 		},
 		methods: {
 			addTodo(e) {
-				// console.log(this);
-
 				var newTodo = {
 					id: id,
 					content: e.target.value.trim(),
@@ -52,18 +51,24 @@
 				};
 				this.todos.unshift(newTodo);
 				//添加到localStorage
-				window.localStorage.setItem(id, JSON.stringify(newTodo));
+				window.localStorage.setItem("todo" + id, JSON.stringify(newTodo));
 				id++;
 
 				e.target.value = "";
 			},
 			deleteTodo(id) {
 				// console.log("todos=", this.todos);
-				console.log(id);
+				// console.log(id);
 				console.log(this.todos.findIndex(todo => id === todo.id));
-				window.localStorage.removeItem(id);
+				window.localStorage.removeItem("todo" + id);
 				this.todos.splice(this.todos.findIndex(todo => id === todo.id), 1);
-			},
+            },
+            changeStatus(id){
+                var json = window.localStorage.getItem("todo" + id);
+                var obj = JSON.parse(json);
+                obj.completed = !obj.completed;
+                 window.localStorage.setItem("todo" + id,JSON.stringify(obj));
+            },
 			toggleFilter(state) {
 				this.filter = state;
 			},
@@ -73,7 +78,7 @@
 				//toDels里面存的是要删除的todo
 				//遍历toDels,
 				toDels.forEach(function(val) {
-					window.localStorage.removeItem(val.id);
+					window.localStorage.removeItem("todo" + val.id);
 				});
 			}
 		},
@@ -82,15 +87,29 @@
 			var self = this;
 			var keys = [];
 			//读取localStorage所有的键，存到keys里
-			for (var i = 0; i < window.localStorage.length - 1; i++) {
+			for (var i = 0; i < window.localStorage.length; i++) {
 				keys.push(window.localStorage.key(i));
 			}
 			// console.log(keys);
 			// 把所有的值放到todos里
+			var max = 0;
 			keys.forEach(function(val, index) {
-				self.todos.push(JSON.parse(window.localStorage.getItem(val)));
+				var isNum = /^todo\d+$/.test(val);
+				// console.log(val,isNum);
+				if (isNum) {
+					var num = /\d+/.exec(val);
+					if (num[0] > max) {
+						max = num[0];
+					}
+
+					self.todos.push(JSON.parse(window.localStorage.getItem(val)));
+				}
 			});
-			console.log(this.todos);
+
+			id = parseInt(max)+1;
+			console.log("max", max);
+			console.log("id", id);
+			// console.log(this.todos);
 		}
 	};
 </script>
